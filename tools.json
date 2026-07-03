@@ -1,10 +1,5 @@
 [
   {
-    "name": "deb-autoset",
-    "desc": "Debian auto-setup (sudo, SSH, IP login banner)",
-    "url": "deb-autoset/main/install.sh"
-  },
-  {
     "name": "deb-autosetRR",
     "desc": "Full auto rr stack (install, OMV layout, claim, purge)",
     "url": "deb-autosetRR/main/install.sh"
