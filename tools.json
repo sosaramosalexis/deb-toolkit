@@ -8,5 +8,5 @@
     "name": "deb-crafty",
     "desc": "Minecraft Server (Crafty Controller) - web-based server manager",
     "url": "deb-crafty/main/install.sh"
-  },
+  }
 ]

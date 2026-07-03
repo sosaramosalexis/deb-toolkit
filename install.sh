@@ -21,20 +21,30 @@ EOF
 
 [[ $# -ge 1 && "$1" == "--help" ]] && usage
 
+# Ensure python3 is available for JSON parsing
+if ! command -v python3 &>/dev/null; then
+    info "python3 is required. Installing..."
+    apt-get update -qq && DEBIAN_FRONTEND=noninteractive apt-get install -y -qq python3
+fi
+
 # Fetch toolbox manifest
 TOOLS=()
 while IFS='|' read -r name desc url; do
     TOOLS+=("$name|$desc|$url")
 done < <(curl -fsSL "$MANIFEST_URL" 2>/dev/null | python3 -c "
 import sys, json
-for t in json.load(sys.stdin):
-    print(t['name'] + '|' + t['desc'] + '|' + t['url'])
+try:
+    for t in json.load(sys.stdin):
+        print(t['name'] + '|' + t['desc'] + '|' + t['url'])
+except:
+    sys.exit(1)
 " 2>/dev/null)
 
 if [[ ${#TOOLS[@]} -eq 0 ]]; then
     err "Failed to fetch toolbox manifest."
-    err "Try again or manually run a tool:"
-    echo "  curl -fsSL https://raw.githubusercontent.com/sosaramosalexis/deb-autoset/main/install.sh | bash"
+    err "Make sure you have internet access and try again."
+    err "Or run a tool directly:"
+    echo "  curl -fsSL https://raw.githubusercontent.com/sosaramosalexis/deb-autosetRR/main/install.sh | sudo bash"
     exit 1
 fi
 
