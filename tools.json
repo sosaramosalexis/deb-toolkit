@@ -15,28 +15,8 @@
     "url": "deb-crafty/main/install.sh"
   },
   {
-    "name": "deb-sleepwithme",
-    "desc": "Scheduled server shutdown by day and time",
-    "url": "deb-sleepwithme/main/install.sh"
-  },
-  {
-    "name": "deb-wakewithme",
-    "desc": "Wake-on-LAN scheduler - send WOL packets by schedule or on demand",
-    "url": "deb-wakewithme/main/install.sh"
-  },
-  {
-    "name": "deb-manuser",
-    "desc": "Full user manager: create, delete, rename, sudo, permissions",
-    "url": "deb-manuser/main/renameuser.sh"
-  },
-  {
     "name": "deb-procman",
     "desc": "Process and service manager \u2014 list, start, stop, restart, enable/disable at boot",
     "url": "deb-procman/main/install.sh"
-  },
-  {
-    "name": "deb-ombak",
-    "desc": "OMV backup utility \u2014 rsync backups by UUID with scheduling and logging",
-    "url": "deb-ombak/main/install.sh"
   }
 ]
