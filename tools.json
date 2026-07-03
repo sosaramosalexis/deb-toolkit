@@ -14,9 +14,4 @@
     "desc": "Minecraft Server (Crafty Controller) - web-based server manager",
     "url": "deb-crafty/main/install.sh"
   },
-  {
-    "name": "deb-procman",
-    "desc": "Process and service manager \u2014 list, start, stop, restart, enable/disable at boot",
-    "url": "deb-procman/main/install.sh"
-  }
 ]

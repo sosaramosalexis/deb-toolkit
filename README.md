@@ -25,7 +25,7 @@ bash <(curl -fsSL https://raw.githubusercontent.com/sosaramosalexis/deb-toolkit/
 | 1 | deb-autoset    | Debian auto-setup (sudo, SSH, IP login banner) |
 | 2 | deb-autosetRR  | Full auto rr stack (install, OMV layout, claim, purge) |
 | 3 | deb-crafty     | Minecraft Server (Crafty Controller) — web-based server manager |
-| 4 | deb-procman    | Process and service manager — list, start, stop, restart, enable/disable at boot |
+
 
 ## Options
 
