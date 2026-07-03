@@ -5,7 +5,7 @@ log()  { echo "[+] $1"; }
 info() { echo "[*] $1"; }
 err()  { echo "[-] $1" >&2; }
 
-MANIFEST_URL="https://raw.githubusercontent.com/sosramalex/deb-toolkit/master/tools.json"
+MANIFEST_URL="https://raw.githubusercontent.com/sosaramosalexis/deb-toolkit/master/tools.json"
 
 usage() {
     cat <<EOF
@@ -34,7 +34,7 @@ for t in json.load(sys.stdin):
 if [[ ${#TOOLS[@]} -eq 0 ]]; then
     err "Failed to fetch toolbox manifest."
     err "Try again or manually run a tool:"
-    echo "  curl -fsSL https://raw.githubusercontent.com/sosramalex/deb-autoset/main/install.sh | bash"
+    echo "  curl -fsSL https://raw.githubusercontent.com/sosaramosalexis/deb-autoset/main/install.sh | bash"
     exit 1
 fi
 
@@ -51,14 +51,14 @@ fi
 run_tool() {
     local idx=$1
     IFS='|' read -r name desc url <<< "${TOOLS[$idx]}"
-    local full_url="https://raw.githubusercontent.com/sosramalex/$url"
+    local full_url="https://raw.githubusercontent.com/sosaramosalexis/$url"
 
-    if whiptail --yesno --title "$name" \
-        "Tool:  ${name}\n\
-Description:  ${desc}\n\n\
-This tool will be downloaded from GitHub and executed.\n\
-Source: ${full_url}\n\n\
-Download and run now?" 12 65; then
+    echo ""
+    echo "Tool:  $name"
+    echo "Desc:  $desc"
+    echo "Source: $full_url"
+    read -rp "Download and run? [y/N]: " confirm
+    if [[ "$confirm" =~ ^[yY] ]]; then
         bash <(curl -fsSL "$full_url") < /dev/tty
     fi
 }
@@ -76,31 +76,25 @@ if [[ $# -ge 1 ]]; then
     usage
 fi
 
-if ! command -v whiptail &>/dev/null; then
-    echo "[!] whiptail is required. Install: apt-get install whiptail" >&2
-    exit 1
-fi
-
 while true; do
-    menu_args=()
-    menu_args+=("--title" "Debian Tool Kit" "--menu" "Select a tool to run:" "18" "70" "8")
+    echo ""
+    echo "Debian Tool Kit"
+    echo "Select a tool to run:"
+    echo ""
     for i in "${!TOOLS[@]}"; do
         IFS='|' read -r name desc _ <<< "${TOOLS[$i]}"
-        [[ "${#desc}" -gt 35 ]] && desc="${desc:0:32}..."
-        menu_args+=("$((i+1))" "${name} — ${desc}")
+        [[ "${#desc}" -gt 50 ]] && desc="${desc:0:47}..."
+        printf "  %d) %s — %s\n" "$((i+1))" "$name" "$desc"
     done
-    menu_args+=("Q" "Quit")
-
-    choice=$(whiptail "${menu_args[@]}" 3>&1 1>&2 2>&3) || {
-        log "Goodbye."
-        exit 0
-    }
-    if [[ "$choice" == "Q" ]]; then
-        log "Goodbye."
-        exit 0
+    echo "  q) Quit"
+    read -rp "Choice: " choice
+    [[ "$choice" == "q" || "$choice" == "Q" ]] && { log "Goodbye."; exit 0; }
+    if [[ "$choice" =~ ^[0-9]+$ ]]; then
+        idx=$(( choice - 1 ))
+        if [[ $idx -ge 0 && $idx -lt ${#TOOLS[@]} ]]; then
+            run_tool $idx
+        fi
     fi
-    idx=$(( choice - 1 ))
-    run_tool $idx
     if [[ -t 0 ]]; then
         read -rp "  Press Enter to continue..."
     fi
